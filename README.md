@@ -1,4 +1,4 @@
-# jam.ascii
+# jam.idle
 
 Made for the [Summer Slow Game Jam](https://itch.io/jam/ssjidle)  
 
