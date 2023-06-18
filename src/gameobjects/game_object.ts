@@ -1,15 +1,18 @@
+import { IAnimator } from "../animations/i_animator";
 import { Camera } from "../camera";
-import { Image } from "../image";
+import { RenderableImage } from "../image";
 import { Point } from "../math/point";
 import { Rectangle } from "../math/rectangle";
+import { Mouse } from "../mouse";
 
 export class GameObject {
   bounds: Rectangle;
-  image: Image;
+  renderable: RenderableImage | IAnimator;
+  children: GameObject[] = [];
 
-  constructor(bounds: Rectangle, image: Image) {
+  constructor(bounds: Rectangle, image: RenderableImage | IAnimator) {
     this.bounds = bounds;
-    this.image = image;
+    this.renderable = image;
   }
 
   getSize(): Point {
@@ -20,19 +23,31 @@ export class GameObject {
     return this.bounds.location;
   }
 
-  render(context: CanvasRenderingContext2D, camera: Camera) {
+  render(
+    context: CanvasRenderingContext2D,
+    camera: Camera,
+    deltaTime: number,
+    mouse: Mouse
+  ) {
     const location = this.bounds.location.multiplyBy(camera.scale);
     const size = this.bounds.size.multiplyBy(camera.scale);
-    if (this.image.image) {
-      context.drawImage(
-        this.image.image,
-        location.x,
-        location.y,
-        size.x,
-        size.y
-      );
+    const image = this.getImage(deltaTime);
+    if (image) {
+      context.drawImage(image.image, location.x, location.y, size.x, size.y);
+    }
+
+    this.children.forEach((child) =>
+      child.render(context, camera, deltaTime, mouse)
+    );
+  }
+
+  private getImage(deltaTime: number): RenderableImage {
+    if ("image" in this.renderable) {
+      return this.renderable;
+    } else if ("getFrame" in this.renderable) {
+      return this.renderable.getFrame(deltaTime);
     }
   }
 
-  onClick(point: Point) {}
+  onMouseDown(point: Point) {}
 }

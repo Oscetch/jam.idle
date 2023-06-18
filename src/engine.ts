@@ -1,9 +1,13 @@
 import { Camera } from "./camera";
 import { GameObject } from "./gameobjects/game_object";
-import { Image } from "./image";
+import { InstrumentsFrame } from "./gameobjects/instruments_frame";
+import { MutationFrame } from "./gameobjects/mutations_frame";
+import { Background } from "./gameobjects/background";
+import { RadiationIndicator } from "./gameobjects/radiation_indicator";
 import { Point } from "./math/point";
-import { Rectangle } from "./math/rectangle";
 import { Mouse } from "./mouse";
+import { Lab } from "./gameobjects/lab";
+import { PlantBox } from "./gameobjects/plant_box";
 
 declare global {
   interface HTMLCanvasElement {
@@ -18,6 +22,7 @@ export namespace IdleGame {
 
     camera = new Camera();
     mouse = new Mouse();
+    time = Date.now();
 
     objects: GameObject[] = [];
 
@@ -25,12 +30,14 @@ export namespace IdleGame {
       this.canvas = canvas;
       this.context = canvas.getContext("2d");
 
-      const image = new Image("dino-idle1.png");
+      const background = new Background();
       this.objects.push(
-        new GameObject(
-          new Rectangle(new Point(10, 10), new Point(32 * 10, 26 * 10)),
-          image
-        )
+        background,
+        new MutationFrame(),
+        new InstrumentsFrame(),
+        new RadiationIndicator(background),
+        new PlantBox(),
+        new Lab()
       );
 
       window.addEventListener("resize", () => this.resizeCanvas());
@@ -39,6 +46,7 @@ export namespace IdleGame {
         const x = event.clientX - rect.left;
         const y = event.clientY - rect.top;
         this.mouse.position = new Point(x, y);
+        this.mouse.translated = this.mouse.position.divideBy(this.camera.scale);
       };
       canvas.onmouseup = () => {
         this.mouse.isClick = true;
@@ -55,11 +63,19 @@ export namespace IdleGame {
     }
 
     render() {
+      const newTime = Date.now();
+      const elapsedTimeSeconds = (newTime - this.time) / 1000;
+      this.time = newTime;
       this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
       this.camera.calculateScale(this.canvas);
 
       for (let i = 0; i < this.objects.length; i++) {
-        this.objects[i].render(this.context, this.camera);
+        this.objects[i].render(
+          this.context,
+          this.camera,
+          elapsedTimeSeconds,
+          this.mouse
+        );
       }
 
       this.mouse.isClick = false;

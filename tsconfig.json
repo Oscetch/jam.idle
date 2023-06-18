@@ -6,7 +6,8 @@
     "preserveConstEnums": true,
     //"outFile": "./bundle/bundle.js",
     "outDir": "jstemp",
-    "sourceMap": false
+    "sourceMap": false,
+    "target": "ES2020"
   },
   "include": ["./src/**/*.ts"]
 }

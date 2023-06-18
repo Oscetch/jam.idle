@@ -1,11 +1,14 @@
-@import url("https://fonts.googleapis.com/css?family=Poppins&display=swap");
+@font-face {
+  font-family: "Inter";
+  src: url("Inter-VariableFont_slnt\,wght.ttf");
+}
 html,
 body,
 div,
 canvas {
   margin: 0;
   padding: 0;
-  background-color: white;
+  background-color: #f1e5d9;
 }
 canvas {
   font-size: 16px;
