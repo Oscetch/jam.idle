@@ -29,16 +29,26 @@ export class GameObject {
     deltaTime: number,
     mouse: Mouse
   ) {
-    const location = this.bounds.location.multiplyBy(camera.scale);
+    this.renderOnlyThis(context, camera, deltaTime);
+
+    this.children.forEach((child) =>
+      child.render(context, camera, deltaTime, mouse)
+    );
+  }
+
+  protected renderOnlyThis(
+    context: CanvasRenderingContext2D,
+    camera: Camera,
+    deltaTime: number
+  ) {
+    const location = this.bounds.location
+      .multiplyBy(camera.scale)
+      .subtract(camera.position);
     const size = this.bounds.size.multiplyBy(camera.scale);
     const image = this.getImage(deltaTime);
     if (image) {
       context.drawImage(image.image, location.x, location.y, size.x, size.y);
     }
-
-    this.children.forEach((child) =>
-      child.render(context, camera, deltaTime, mouse)
-    );
   }
 
   private getImage(deltaTime: number): RenderableImage {

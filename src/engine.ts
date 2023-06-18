@@ -8,6 +8,8 @@ import { Point } from "./math/point";
 import { Mouse } from "./mouse";
 import { Lab } from "./gameobjects/lab";
 import { PlantBox } from "./gameobjects/plant_box";
+import { gameInformation } from "./game_information";
+import { Settings } from "./settings";
 
 declare global {
   interface HTMLCanvasElement {
@@ -51,6 +53,11 @@ export namespace IdleGame {
       canvas.onmouseup = () => {
         this.mouse.isClick = true;
       };
+      canvas.onwheel = (event) => {
+        this.mouse.scrollDeltaY =
+          event.deltaY > 0 ? -Settings.SCROLL_SPEED : Settings.SCROLL_SPEED;
+        event.preventDefault();
+      };
 
       this.resizeCanvas();
 
@@ -69,6 +76,8 @@ export namespace IdleGame {
       this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
       this.camera.calculateScale(this.canvas);
 
+      gameInformation.totalRadiation +=
+        gameInformation.getRadiationPerSecond() * elapsedTimeSeconds;
       for (let i = 0; i < this.objects.length; i++) {
         this.objects[i].render(
           this.context,
@@ -79,6 +88,7 @@ export namespace IdleGame {
       }
 
       this.mouse.isClick = false;
+      this.mouse.scrollDeltaY = 0;
       requestAnimationFrame(() => this.render());
     }
   }

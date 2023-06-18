@@ -10,7 +10,7 @@ import { TopRightRelativeGameObject } from "./top_right_relative_game_object";
 export class RadiationIndicator extends TopRightRelativeGameObject {
   pointText: TopLeftRelativeGameObject;
 
-  currentPoints: bigint;
+  currentPoints: number;
 
   constructor(parent: GameObject) {
     super(
@@ -34,7 +34,7 @@ export class RadiationIndicator extends TopRightRelativeGameObject {
       new TopRightRelativeGameObject(
         this,
         new Point(26.67, 26.67),
-        new PngImage("cost_icon.png"),
+        new PngImage("cost_icon_big.png"),
         new Point(this.getSize().x - 18.67, 19.67)
       )
     );
@@ -49,12 +49,19 @@ export class RadiationIndicator extends TopRightRelativeGameObject {
     const availableRadiation = gameInformation.getAvailableRadiation();
     if (this.currentPoints !== availableRadiation) {
       this.currentPoints = availableRadiation;
-      this.pointText.renderable = this.getPointsImage();
+      const textImage = this.getPointsImage();
+      this.pointText.renderable = textImage;
+      this.pointText.bounds.size = textImage.size;
     }
     super.render(context, camera, deltaTime, mouse);
   }
 
   private getPointsImage(): TextImage {
-    return new TextImage(`${this.currentPoints} points`, 24, "#2C2C2E", 700);
+    return new TextImage(
+      `${Math.floor(this.currentPoints)} points`,
+      24,
+      "#2C2C2E",
+      700
+    );
   }
 }

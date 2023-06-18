@@ -4,4 +4,5 @@ export class Mouse {
   position = new Point();
   translated = new Point();
   isClick = false;
+  scrollDeltaY = 0;
 }
