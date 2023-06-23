@@ -1,66 +1,75 @@
-import { AirPurification } from "./upgrades/air_purification";
-import { Bioluminescence } from "./upgrades/bioluminescence";
-import { BiomassConversion } from "./upgrades/biomass_conversion";
-import { Instruments } from "./upgrades/instruments";
-import { Intern } from "./upgrades/intern";
-import { MindControl } from "./upgrades/mind_control";
-import { Radium } from "./upgrades/radium";
-import { Thorns } from "./upgrades/thorns";
-import { Upgrade } from "./upgrades/upgrade";
-import { WaterRetention } from "./upgrades/water_retention";
+import { Bioluminescence } from "./upgrades/mutations/tier_one/bioluminescence";
+import { NewInstruments } from "./upgrades/instruments/new_instruments";
+import { Thorns } from "./upgrades/mutations/tier_one/thorns";
+import { Intern } from "./upgrades/instruments/intern";
+import { Radium } from "./upgrades/instruments/radium";
+import { Mutation } from "./upgrades/mutations/mutation";
+import { Instrument } from "./upgrades/instruments/instrument";
+import { RapidGrowth } from "./upgrades/mutations/tier_one/rapid_growth";
 
 export class GameInformation {
-  totalRadiation = 0;
+  totalRadiation = 1_000_000_000;
   spentRadiation = 0;
 
   radiationPerClick = 1;
 
-  thorns = new Thorns();
-  bioluminescence = new Bioluminescence();
-  waterRetention = new WaterRetention();
-  airPurification = new AirPurification();
-  biomassConversion = new BiomassConversion();
-  mindControl = new MindControl();
+  purchasedMutations: Mutation[] = [];
 
   intern = new Intern();
-  instruments = new Instruments();
+  instruments = new NewInstruments();
   radium = new Radium();
+
+  getPlantImage(): string {
+    if (this.purchasedMutations.length > 0) {
+      console.log(this.purchasedMutations[this.purchasedMutations.length - 1]);
+      return this.purchasedMutations[this.purchasedMutations.length - 1].image;
+    } else {
+      return "plant.png";
+    }
+  }
 
   getAvailableRadiation(): number {
     return this.totalRadiation - this.spentRadiation;
   }
 
-  calculateCost(upgrade: Upgrade): number {
+  calculateCost(upgrade: Instrument): number {
     return (
       upgrade.multiplier *
       (upgrade.level + 300 * Math.pow(2, upgrade.level / 7))
     );
   }
 
-  getRadiationPerSecond(): number {
+  getRadiationPerClick(): number {
     return this.getMutations()
-      .concat(this.getInstruments())
-      .map((upgrade) => this.getRadiationForUpgrade(upgrade))
-      .reduce((sum, upgrade) => sum + upgrade);
+      .filter((mutation) => mutation.isPurchased)
+      .map((mutation) => mutation.radiationPerClick)
+      .reduce((sum, radiation) => sum + radiation, this.radiationPerClick);
   }
 
-  getMutations(): Upgrade[] {
-    return [
-      this.thorns,
-      this.bioluminescence,
-      this.waterRetention,
-      this.airPurification,
-      this.biomassConversion,
-      this.mindControl,
-    ];
+  getRadiationPerSecond(): number {
+    return (
+      this.getMutations()
+        .filter((mutation) => mutation.isPurchased)
+        .map((mutation) => mutation.radiationPerLevel)
+        .reduce((sum, radiation) => sum + radiation, 0) +
+      this.getInstruments()
+        .map((upgrade) => upgrade.radiationPerLevel * upgrade.level)
+        .reduce((sum, radiation) => sum + radiation)
+    );
   }
 
-  getInstruments(): Upgrade[] {
+  getMutations(): Mutation[] {
+    if (this.purchasedMutations.length === 0) {
+      return [new Thorns(), new Bioluminescence(), new RapidGrowth()];
+    }
+
+    return this.purchasedMutations.concat(
+      this.purchasedMutations[this.purchasedMutations.length - 1].upgrades
+    );
+  }
+
+  getInstruments(): Instrument[] {
     return [this.intern, this.instruments, this.radium];
-  }
-
-  private getRadiationForUpgrade(upgrade: Upgrade) {
-    return upgrade.level * upgrade.radiationPerLevel;
   }
 }
 

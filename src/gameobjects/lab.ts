@@ -26,7 +26,7 @@ export class Lab extends GameObject {
     if (mouse.isClick && this.bounds.containsPoint(mouse.translated)) {
       mouse.isClick = false;
       this.labAnimator.onClick();
-      gameInformation.totalRadiation += gameInformation.radiationPerClick;
+      gameInformation.totalRadiation += gameInformation.getRadiationPerClick();
     }
     super.render(context, camera, deltaTime, mouse);
   }

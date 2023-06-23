@@ -1,13 +1,16 @@
 import { Camera } from "../camera";
-import { PngImage } from "../image";
+import { PngImage } from "../images/png_image";
 import { Point } from "../math/point";
 import { Mouse } from "../mouse";
+import { CenterRelativeGameObject } from "./center_relative_game_object";
 import { GameObject } from "./game_object";
-import { TopLeftRelativeGameObject } from "./top_left_relative_game_object";
 
-export class CardPurchaseButton extends TopLeftRelativeGameObject {
+export class CardPurchaseButton extends CenterRelativeGameObject {
   private activeImage = new PngImage("purchase_button_active.png");
   private inactiveImage = new PngImage("purchase_button_inactive.png");
+
+  private idleSize: Point;
+  private hoverSize: Point;
 
   canPurchase: () => boolean;
   onPurchase: () => void;
@@ -17,8 +20,10 @@ export class CardPurchaseButton extends TopLeftRelativeGameObject {
       parent,
       new Point(40, 40),
       new PngImage("purchase_button_active.png"),
-      relativePosition
+      relativePosition.addBy(20)
     );
+    this.idleSize = this.bounds.size;
+    this.hoverSize = this.bounds.size.multiplyBy(1.2);
   }
 
   render(
@@ -29,15 +34,17 @@ export class CardPurchaseButton extends TopLeftRelativeGameObject {
   ): void {
     if (this.canPurchase && this.canPurchase()) {
       this.renderable = this.activeImage;
-      if (
-        this.onPurchase &&
-        mouse.isClick &&
-        this.bounds.containsPoint(mouse.translated)
-      ) {
-        this.onPurchase();
-        mouse.isClick = false;
+      if (this.bounds.containsPoint(mouse.translated)) {
+        this.bounds = this.bounds.growByStep(this.hoverSize);
+        if (this.onPurchase && mouse.isClick) {
+          this.onPurchase();
+          mouse.isClick = false;
+        }
+      } else {
+        this.bounds = this.bounds.shrinkByStep(this.idleSize);
       }
     } else {
+      this.bounds = this.bounds.shrinkByStep(this.idleSize);
       this.renderable = this.inactiveImage;
     }
     super.render(context, camera, deltaTime, mouse);

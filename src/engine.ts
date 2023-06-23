@@ -1,15 +1,11 @@
 import { Camera } from "./camera";
-import { GameObject } from "./gameobjects/game_object";
-import { InstrumentsFrame } from "./gameobjects/instruments_frame";
-import { MutationFrame } from "./gameobjects/mutations_frame";
-import { Background } from "./gameobjects/background";
-import { RadiationIndicator } from "./gameobjects/radiation_indicator";
 import { Point } from "./math/point";
 import { Mouse } from "./mouse";
-import { Lab } from "./gameobjects/lab";
-import { PlantBox } from "./gameobjects/plant_box";
 import { gameInformation } from "./game_information";
 import { Settings } from "./settings";
+import { Scene } from "./scenes/scene";
+import { GameScene } from "./scenes/game_scene";
+import { StartScene } from "./scenes/start_scene";
 
 declare global {
   interface HTMLCanvasElement {
@@ -26,21 +22,17 @@ export namespace IdleGame {
     mouse = new Mouse();
     time = Date.now();
 
-    objects: GameObject[] = [];
+    scene: Scene;
 
     constructor(canvas: HTMLCanvasElement) {
       this.canvas = canvas;
       this.context = canvas.getContext("2d");
 
-      const background = new Background();
-      this.objects.push(
-        background,
-        new MutationFrame(),
-        new InstrumentsFrame(),
-        new RadiationIndicator(background),
-        new PlantBox(),
-        new Lab()
-      );
+      this.scene = new StartScene(); //new GameScene();
+      this.scene.changeScene = (scene: Scene) => {
+        scene.changeScene = this.scene.changeScene;
+        this.scene = scene;
+      };
 
       window.addEventListener("resize", () => this.resizeCanvas());
       canvas.onmousemove = (event) => {
@@ -78,8 +70,8 @@ export namespace IdleGame {
 
       gameInformation.totalRadiation +=
         gameInformation.getRadiationPerSecond() * elapsedTimeSeconds;
-      for (let i = 0; i < this.objects.length; i++) {
-        this.objects[i].render(
+      for (let i = 0; i < this.scene.gameObjects.length; i++) {
+        this.scene.gameObjects[i].render(
           this.context,
           this.camera,
           elapsedTimeSeconds,

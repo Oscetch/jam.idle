@@ -2,6 +2,10 @@
   font-family: "Inter";
   src: url("Inter-VariableFont_slnt\,wght.ttf");
 }
+@font-face {
+  font-family: "Holtwood One SC";
+  src: url("HoltwoodOneSC-Regular.ttf");
+}
 html,
 body,
 div,

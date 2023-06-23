@@ -1,5 +1,5 @@
 import { Camera } from "../camera";
-import { RenderableImage } from "../image";
+import { RenderableImage } from "../images/renderable_image";
 import { Point } from "../math/point";
 import { Rectangle } from "../math/rectangle";
 import { Mouse } from "../mouse";

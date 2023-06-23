@@ -1,4 +1,4 @@
-import { PngImage } from "../image";
+import { PngImage } from "../images/png_image";
 import { Point } from "../math/point";
 import { Rectangle } from "../math/rectangle";
 import { GameObject } from "./game_object";

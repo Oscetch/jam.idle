@@ -1,4 +1,4 @@
-import { RenderableImage } from "../image";
+import { RenderableImage } from "../images/renderable_image";
 import { IAnimator } from "./i_animator";
 
 export class DefaultAnimator implements IAnimator {

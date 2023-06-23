@@ -93,4 +93,16 @@ export class Rectangle {
       this.top() < other.bottom()
     );
   }
+
+  growByStep(targetSize: Point, step: Point = new Point(1, 1)): Rectangle {
+    const newX = Math.min(this.size.x + step.x, targetSize.x);
+    const newY = Math.min(this.size.y + step.y, targetSize.y);
+    return new Rectangle(new Point(), new Point(newX, newY)).centerOn(this);
+  }
+
+  shrinkByStep(targetSize: Point, step: Point = new Point(1, 1)): Rectangle {
+    const newX = Math.max(this.size.x - step.x, targetSize.x);
+    const newY = Math.max(this.size.y - step.y, targetSize.y);
+    return new Rectangle(new Point(), new Point(newX, newY)).centerOn(this);
+  }
 }
