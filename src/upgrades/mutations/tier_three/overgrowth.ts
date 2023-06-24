@@ -2,8 +2,8 @@ import { Mutation } from "../mutation";
 
 export class Overgrowth implements Mutation {
   name: string = "Overgrowth";
-  radiationPerLevel: number = 3;
-  radiationPerClick: number = 2;
+  radiationPerLevel: number = 80;
+  radiationPerClick: number = 80;
   cost: number = 1_000_000;
 
   upgrades: Mutation[] = [];

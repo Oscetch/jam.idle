@@ -4,9 +4,9 @@ import { SmogCleansing } from "../tier_two/smog_cleansing";
 
 export class Thorns implements Mutation {
   name = "Thorny Defence";
-  radiationPerLevel: number = 1;
+  radiationPerLevel: number = 0;
   cost: number = 100;
-  radiationPerClick: number = 0;
+  radiationPerClick: number = 4;
   upgrades: Mutation[] = [new ResilientStructure(), new SmogCleansing()];
   isPurchased: boolean = false;
   image = "plant_1_thorns.png";

@@ -6,9 +6,10 @@ import { Radium } from "./upgrades/instruments/radium";
 import { Mutation } from "./upgrades/mutations/mutation";
 import { Instrument } from "./upgrades/instruments/instrument";
 import { RapidGrowth } from "./upgrades/mutations/tier_one/rapid_growth";
+import { getGameInformation } from "./storage_handler";
 
 export class GameInformation {
-  totalRadiation = 1_000_000_000;
+  totalRadiation = 0;
   spentRadiation = 0;
 
   radiationPerClick = 1;
@@ -19,9 +20,10 @@ export class GameInformation {
   instruments = new NewInstruments();
   radium = new Radium();
 
+  isNewGame = true;
+
   getPlantImage(): string {
     if (this.purchasedMutations.length > 0) {
-      console.log(this.purchasedMutations[this.purchasedMutations.length - 1]);
       return this.purchasedMutations[this.purchasedMutations.length - 1].image;
     } else {
       return "plant.png";
@@ -73,6 +75,10 @@ export class GameInformation {
   }
 }
 
-const gameInformation = new GameInformation();
+var gameInformation = getGameInformation();
+
+export function reset() {
+  gameInformation = new GameInformation();
+}
 
 export { gameInformation };

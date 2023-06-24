@@ -1,9 +1,11 @@
+import { gameInformation } from "../game_information";
 import { GameObject } from "../gameobjects/game_object";
 import { StartGameButton } from "../gameobjects/start_game_button";
 import { TextImage } from "../images/text_image";
 import { Point } from "../math/point";
 import { Rectangle } from "../math/rectangle";
 import { Settings } from "../settings";
+import { saveGameInformation as saveGameInformation } from "../storage_handler";
 import { GameScene } from "./game_scene";
 import { Scene } from "./scene";
 
@@ -38,7 +40,12 @@ export class StartScene implements Scene {
         new Rectangle(new Point(205, 765), descriptionText.size),
         descriptionText
       ),
-      new StartGameButton(() => this.changeScene(new GameScene()))
+      new StartGameButton(() => {
+        gameInformation.isNewGame = false;
+        this.changeScene(new GameScene());
+      })
     );
+
+    saveGameInformation(gameInformation);
   }
 }

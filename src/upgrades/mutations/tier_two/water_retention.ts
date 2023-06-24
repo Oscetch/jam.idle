@@ -4,10 +4,10 @@ import { SymbioticRelationship } from "../tier_three/symbiotic_relationship";
 
 export class WaterRetention implements Mutation {
   name: string = "Water Retention";
-  radiationPerLevel: number = 1;
   cost: number = 10_000;
 
-  radiationPerClick: number = 1;
+  radiationPerLevel: number = 10;
+  radiationPerClick: number = 20;
   upgrades: Mutation[] = [new SymbioticRelationship(), new MindControl()];
 
   isPurchased: boolean = false;

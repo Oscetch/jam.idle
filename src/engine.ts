@@ -6,6 +6,7 @@ import { Settings } from "./settings";
 import { Scene } from "./scenes/scene";
 import { GameScene } from "./scenes/game_scene";
 import { StartScene } from "./scenes/start_scene";
+import { saveGameInformation } from "./storage_handler";
 
 declare global {
   interface HTMLCanvasElement {
@@ -28,7 +29,11 @@ export namespace IdleGame {
       this.canvas = canvas;
       this.context = canvas.getContext("2d");
 
-      this.scene = new StartScene(); //new GameScene();
+      if (gameInformation.isNewGame) {
+        this.scene = new StartScene();
+      } else {
+        this.scene = new GameScene();
+      }
       this.scene.changeScene = (scene: Scene) => {
         scene.changeScene = this.scene.changeScene;
         this.scene = scene;
