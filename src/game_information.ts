@@ -10,7 +10,7 @@ import { getGameInformation } from "./storage_handler";
 import { FinalMutation } from "./upgrades/mutations/final_mutation";
 
 export class GameInformation {
-  totalRadiation = 1_000_000_000;
+  totalRadiation = 0;
   spentRadiation = 0;
 
   radiationPerClick = 1;
@@ -34,7 +34,7 @@ export class GameInformation {
     this.intern = new Intern();
     this.instruments = new NewInstruments();
     this.radium = new Radium();
-    this.totalRadiation = 1_000_000_000;
+    this.totalRadiation = 0;
     this.spentRadiation = 0;
     this.radiationPerClick = 1;
   }
