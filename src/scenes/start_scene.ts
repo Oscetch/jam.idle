@@ -45,7 +45,7 @@ export class StartScene implements Scene {
         titleText
       ),
       new GameObject(
-        new Rectangle(new Point(205, 215), descriptionText.size),
+        new Rectangle(new Point(205, 195), descriptionText.size),
         descriptionText
       ),
       new StartGameButton(() => {
