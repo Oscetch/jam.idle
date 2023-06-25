@@ -58,7 +58,8 @@ export class MutationFrame extends GameObject {
       );
     });
 
-    if (gameInformation.getCurrentMutation() instanceof FinalMutation) {
+    const currentMutation = gameInformation.getCurrentMutation();
+    if (currentMutation && (currentMutation as FinalMutation).isFinal) {
       this.onFinal();
     }
   }
