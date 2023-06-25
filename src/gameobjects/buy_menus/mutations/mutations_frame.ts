@@ -86,7 +86,9 @@ export class MutationFrame extends GameObject {
     context.save();
 
     const path = new Path2D();
-    const location = this.bounds.location.multiplyBy(camera.scale);
+    const location = this.bounds.location
+      .multiplyBy(camera.scale)
+      .subtract(camera.position);
     const size = this.bounds.size.multiplyBy(camera.scale);
     path.roundRect(location.x, location.y, size.x, size.y, 24);
     context.clip(path);

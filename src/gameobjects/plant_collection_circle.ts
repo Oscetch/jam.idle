@@ -46,8 +46,11 @@ export class PlantCollectionCircle extends GameObject {
     mouse: Mouse
   ): void {
     const path = new Path2D();
-    const center = this.bounds.center();
-    const size = this.getSize().divideBy(2);
+    const center = this.bounds
+      .center()
+      .multiplyBy(camera.scale)
+      .subtract(camera.position);
+    const size = this.getSize().divideBy(2).multiplyBy(camera.scale);
     path.ellipse(center.x, center.y, size.x, size.y, 0, 0, Math.PI * 2);
     context.save();
     context.clip(path);
@@ -55,5 +58,7 @@ export class PlantCollectionCircle extends GameObject {
     super.render(context, camera, deltaTime, mouse);
 
     context.restore();
+
+    context.stroke(path);
   }
 }

@@ -53,7 +53,9 @@ export namespace IdleGame {
         const x = event.clientX - rect.left;
         const y = event.clientY - rect.top;
         this.mouse.position = new Point(x, y);
-        this.mouse.translated = this.mouse.position.divideBy(this.camera.scale);
+        this.mouse.translated = this.mouse.position
+          .add(this.camera.position)
+          .divideBy(this.camera.scale);
       };
       canvas.onmouseup = () => {
         this.mouse.isClick = true;
