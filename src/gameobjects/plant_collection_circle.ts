@@ -15,7 +15,7 @@ export class PlantCollectionCircle extends GameObject {
       new PngImage("empty.png")
     );
 
-    const distanceFromCenter = 300;
+    const distanceFromCenter = 275;
     const step = (Math.PI * 2) / 12;
 
     const all = gameInformation.finishedMutations.concat([
@@ -23,9 +23,8 @@ export class PlantCollectionCircle extends GameObject {
     ]);
 
     for (let i = 0; i < all.length; i++) {
-      const position = this.bounds.size
+      const position = this.getSize()
         .divideBy(2)
-        .add(new Point(50, 50))
         .moveInDirection(step * i, distanceFromCenter);
       const final = all[i];
       this.children.push(
