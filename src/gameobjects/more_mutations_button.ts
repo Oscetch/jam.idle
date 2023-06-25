@@ -22,7 +22,7 @@ export class MoreMutationsButton extends CenterRelativeGameObject {
     this.onClick = onClick;
 
     const text = new TextImage(
-      gameInformation.finishedMutations.length >= 12
+      gameInformation.isFinalFinalMutation()
         ? "Set It Free!"
         : "More Mutations!",
       24,

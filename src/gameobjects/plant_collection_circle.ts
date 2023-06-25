@@ -4,6 +4,7 @@ import { PngImage } from "../images/png_image";
 import { Point } from "../math/point";
 import { Rectangle } from "../math/rectangle";
 import { Mouse } from "../mouse";
+import { FinalMutation } from "../upgrades/mutations/final_mutation";
 import { CenterRelativeGameObject } from "./center_relative_game_object";
 import { GameObject } from "./game_object";
 
@@ -14,14 +15,19 @@ export class PlantCollectionCircle extends GameObject {
       new PngImage("empty.png")
     );
 
-    const distanceFromCenter = 350.5;
+    const distanceFromCenter = 300;
     const step = (Math.PI * 2) / 12;
-    for (let i = 0; i < gameInformation.finishedMutations.length; i++) {
+
+    const all = gameInformation.finishedMutations.concat([
+      gameInformation.getCurrentMutation() as FinalMutation,
+    ]);
+
+    for (let i = 0; i < all.length; i++) {
       const position = this.bounds.size
         .divideBy(2)
         .add(new Point(50, 50))
         .moveInDirection(step * i, distanceFromCenter);
-      const final = gameInformation.finishedMutations[i];
+      const final = all[i];
       this.children.push(
         new CenterRelativeGameObject(
           this,

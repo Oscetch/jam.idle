@@ -55,7 +55,7 @@ export class MutationFinished extends GameObject {
         this,
         description.size,
         description,
-        new Point(this.getSize().x / 2 - description.size.x / 4, 509.5)
+        new Point(this.getSize().x / 2 - mutationUnleashed.size.x / 4, 509.5)
       ),
       new MoreMutationsButton(this, () => onMoreMutations())
     );

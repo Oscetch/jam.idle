@@ -19,7 +19,6 @@ export class FinishedMutationCard extends TopLeftRelativeGameObject {
       new RoundedCornerRectangle(new Point(80, 80), 24, "#FFFFFF"),
       position
     );
-    console.log(finalMutation);
 
     this.tweens.push(new ButtonTween(this));
     const image = new TopLeftRelativeGameObject(

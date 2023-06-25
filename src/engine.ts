@@ -34,8 +34,9 @@ export namespace IdleGame {
       if (gameInformation.isNewGame) {
         this.scene = new StartScene();
       } else if (
-        currentMutation &&
-        (gameInformation.getCurrentMutation() as FinalMutation).isFinal
+        (currentMutation &&
+          (gameInformation.getCurrentMutation() as FinalMutation).isFinal) ||
+        gameInformation.finishedMutations.length >= 12
       ) {
         this.scene = new MutationUnleashedScene();
       } else {

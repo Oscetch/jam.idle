@@ -10,7 +10,7 @@ import { getGameInformation } from "./storage_handler";
 import { FinalMutation } from "./upgrades/mutations/final_mutation";
 
 export class GameInformation {
-  totalRadiation = 0;
+  totalRadiation = 1_000_000_000;
   spentRadiation = 0;
 
   radiationPerClick = 1;
@@ -34,7 +34,7 @@ export class GameInformation {
     this.intern = new Intern();
     this.instruments = new NewInstruments();
     this.radium = new Radium();
-    this.totalRadiation = 0;
+    this.totalRadiation = 1_000_000_000;
     this.spentRadiation = 0;
     this.radiationPerClick = 1;
   }
@@ -104,12 +104,58 @@ export class GameInformation {
 
   getMutations(): Mutation[] {
     if (this.purchasedMutations.length === 0) {
-      return [new Thorns(), new Bioluminescence(), new RapidGrowth()];
+      const step1Mutations = [
+        new Thorns(),
+        new Bioluminescence(),
+        new RapidGrowth(),
+      ];
+      const available: Mutation[] = [];
+      for (let i = 0; i < step1Mutations.length; i++) {
+        const mutation = step1Mutations[i];
+        if (this.availablePaths(mutation) > 0) {
+          available.push(mutation);
+        }
+      }
+      return available;
     }
 
-    return this.purchasedMutations.concat(
-      this.purchasedMutations[this.purchasedMutations.length - 1].upgrades
-    );
+    const upgrades =
+      this.purchasedMutations[this.purchasedMutations.length - 1].upgrades;
+    const available: Mutation[] = [];
+    for (let i = 0; i < upgrades.length; i++) {
+      const upgrade = upgrades[i];
+      if (this.availablePaths(upgrade) > 0) {
+        available.push(upgrade);
+      }
+    }
+
+    return this.purchasedMutations.concat(available);
+  }
+
+  private availablePaths(mutation: Mutation): number {
+    var available: number = 0;
+    if (mutation.upgrades.length === 0) {
+      return 1;
+    } else {
+      for (let i = 0; i < mutation.upgrades.length; i++) {
+        const upgrade = mutation.upgrades[i];
+        if (upgrade.upgrades.length > 1) {
+          available += this.availablePaths(upgrade);
+        } else {
+          var isFinished = false;
+          for (let j = 0; j < this.finishedMutations.length; j++) {
+            const finished = this.finishedMutations[j];
+            if (finished.image == upgrade.image) {
+              isFinished = true;
+            }
+          }
+          if (!isFinished) {
+            available++;
+          }
+        }
+      }
+    }
+    return available;
   }
 
   getInstruments(): Instrument[] {

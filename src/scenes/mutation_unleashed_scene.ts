@@ -22,16 +22,16 @@ export class MutationUnleashedScene implements Scene {
   constructor() {
     const mutationFinished = new MutationFinished(
       () => {
-        gameInformation.addFinal();
-        saveGameInformation(gameInformation);
         if (!gameInformation.isFinalFinalMutation()) {
+          gameInformation.addFinal();
+          saveGameInformation(gameInformation);
           this.changeScene(new GameScene());
         } else {
+          saveGameInformation(gameInformation);
           this.changeScene(new SetFreeScene());
         }
       },
       () => {
-        gameInformation.addFinal();
         saveGameInformation(gameInformation);
         this.changeScene(new SetFreeScene());
       }
