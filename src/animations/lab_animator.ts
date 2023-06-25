@@ -12,6 +12,8 @@ export class LabAnimator implements IAnimator {
 
   private currentAnimator: DefaultAnimator;
 
+  private hasIntern: boolean = false;
+
   constructor() {
     this.idleAnimation = new DefaultAnimator(
       [new PngImage("lab_idle_1.png"), new PngImage("lab_idle_2.png")],
@@ -38,20 +40,23 @@ export class LabAnimator implements IAnimator {
       this.currentAnimator = this.idleAnimation;
       this.currentAnimator.reset();
     };
-    this.currentAnimator =
-      gameInformation.intern.level > 0
-        ? this.clickedInternAnimation
-        : this.idleAnimation;
+    this.hasIntern = gameInformation.intern.level > 0;
+    this.currentAnimator = this.hasIntern
+      ? this.clickedInternAnimation
+      : this.idleAnimation;
   }
 
   onClick() {
-    this.currentAnimator =
-      gameInformation.intern.level > 0
-        ? this.clickedInternAnimation
-        : this.clickedAnimation;
+    this.currentAnimator = this.hasIntern
+      ? this.clickedInternAnimation
+      : this.clickedAnimation;
   }
 
   getFrame(deltaTime: number): RenderableImage {
+    if (!this.hasIntern && gameInformation.intern.level > 0) {
+      this.hasIntern = true;
+      this.currentAnimator = this.clickedInternAnimation;
+    }
     return this.currentAnimator.getFrame(deltaTime);
   }
 }
