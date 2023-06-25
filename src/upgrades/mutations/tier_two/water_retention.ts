@@ -6,8 +6,8 @@ export class WaterRetention implements Mutation {
   name: string = "Water Retention";
   cost: number = 10_000;
 
-  radiationPerLevel: number = 10;
-  radiationPerClick: number = 20;
+  radiationPerLevel: number = 20;
+  radiationPerClick: number = 40;
   upgrades: Mutation[] = [new SymbioticRelationship(), new MindControl()];
 
   isPurchased: boolean = false;

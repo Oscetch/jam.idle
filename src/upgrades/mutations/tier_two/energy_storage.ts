@@ -6,7 +6,7 @@ export class EnergyStorage implements Mutation {
   name: string = "Energy Storage";
   cost: number = 10_000;
   radiationPerLevel: number = 0;
-  radiationPerClick: number = 30;
+  radiationPerClick: number = 60;
 
   upgrades: Mutation[] = [new OrganicSynthesis(), new WillSuppression()];
   isPurchased: boolean = false;

@@ -3,8 +3,8 @@ import { Mutation } from "../mutation";
 
 export class MetabolicTransformation implements Mutation {
   name: string = "Metabolic Transformation";
-  radiationPerLevel: number = 90;
-  radiationPerClick: number = 20;
+  radiationPerLevel: number = 180;
+  radiationPerClick: number = 40;
   cost: number = 1_000_000;
 
   upgrades: Mutation[] = [

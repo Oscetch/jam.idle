@@ -6,7 +6,7 @@ export class SmogCleansing implements Mutation {
   name: string = "Smog Cleansing";
   cost: number = 10_000;
   radiationPerLevel: number = 0;
-  radiationPerClick: number = 40;
+  radiationPerClick: number = 80;
 
   upgrades: Mutation[] = [new PlantHybridization(), new PhotosyntheticSkin()];
   isPurchased: boolean = false;

@@ -3,7 +3,7 @@ import { Mutation } from "../mutation";
 
 export class GeneticCuriosity implements Mutation {
   name: string = "Genetic Curiosity";
-  radiationPerLevel: number = 100;
+  radiationPerLevel: number = 200;
   radiationPerClick: number = 0;
   cost: number = 1_000_000;
 

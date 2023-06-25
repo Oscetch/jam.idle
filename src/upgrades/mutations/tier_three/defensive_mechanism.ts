@@ -3,8 +3,8 @@ import { Mutation } from "../mutation";
 
 export class DefensiveMechanism implements Mutation {
   name: string = "Defensive Mechanism";
-  radiationPerLevel: number = 40;
-  radiationPerClick: number = 100;
+  radiationPerLevel: number = 80;
+  radiationPerClick: number = 200;
   cost: number = 1_000_000;
 
   upgrades: Mutation[] = [

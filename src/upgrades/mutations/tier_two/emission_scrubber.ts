@@ -5,7 +5,7 @@ import { Overgrowth } from "../tier_three/overgrowth";
 export class EmissionScrubber implements Mutation {
   name: string = "Emission Scrubber";
   cost: number = 10_000;
-  radiationPerLevel: number = 15;
+  radiationPerLevel: number = 30;
   radiationPerClick: number = 0;
 
   upgrades: Mutation[] = [new Overgrowth(), new MetabolicTransformation()];
