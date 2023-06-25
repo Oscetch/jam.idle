@@ -9,12 +9,15 @@ import { clamp } from "../../../util";
 import { MutationsCard } from "./mutations_card";
 import { RoundedCornerRectangle } from "../../../images/rounded_corner_rectangle";
 import { TextImage } from "../../../images/text_image";
+import { FinalMutation } from "../../../upgrades/mutations/final_mutation";
 
 export class MutationFrame extends GameObject {
   private currentScroll = 0;
   private mutationText: TextImage;
 
-  constructor() {
+  private onFinal: () => void;
+
+  constructor(onFinal: () => void) {
     super(
       new Rectangle(new Point(17, 16), new Point(344, 578)),
       new RoundedCornerRectangle(new Point(344, 578), 24)
@@ -22,6 +25,7 @@ export class MutationFrame extends GameObject {
 
     this.mutationText = new TextImage("MUTATIONS", 16, "#00000099", 500);
     this.refresh();
+    this.onFinal = onFinal;
   }
 
   refresh() {
@@ -53,6 +57,10 @@ export class MutationFrame extends GameObject {
         relativePosition.y + card.getSize().y + 8
       );
     });
+
+    if (gameInformation.getCurrentMutation() instanceof FinalMutation) {
+      this.onFinal();
+    }
   }
 
   render(

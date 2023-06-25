@@ -4,13 +4,13 @@ import { Point } from "../math/point";
 import { Mouse } from "../mouse";
 import { CenterRelativeGameObject } from "./center_relative_game_object";
 import { GameObject } from "./game_object";
+import { ButtonTween } from "./tweens/button_tween";
 
 export class CardPurchaseButton extends CenterRelativeGameObject {
   private activeImage = new PngImage("purchase_button_active.png");
   private inactiveImage = new PngImage("purchase_button_inactive.png");
 
-  private idleSize: Point;
-  private hoverSize: Point;
+  buttonTween: ButtonTween;
 
   canPurchase: () => boolean;
   onPurchase: () => void;
@@ -22,8 +22,8 @@ export class CardPurchaseButton extends CenterRelativeGameObject {
       new PngImage("purchase_button_active.png"),
       relativePosition.addBy(20)
     );
-    this.idleSize = this.bounds.size;
-    this.hoverSize = this.bounds.size.multiplyBy(1.2);
+    this.buttonTween = new ButtonTween(this);
+    this.tweens.push(this.buttonTween);
   }
 
   render(
@@ -34,17 +34,16 @@ export class CardPurchaseButton extends CenterRelativeGameObject {
   ): void {
     if (this.canPurchase && this.canPurchase()) {
       this.renderable = this.activeImage;
+      this.buttonTween.isEnabled = true;
       if (this.bounds.containsPoint(mouse.translated)) {
-        this.bounds = this.bounds.growByStep(this.hoverSize);
         if (this.onPurchase && mouse.isClick) {
           this.onPurchase();
           mouse.isClick = false;
         }
       } else {
-        this.bounds = this.bounds.shrinkByStep(this.idleSize);
       }
     } else {
-      this.bounds = this.bounds.shrinkByStep(this.idleSize);
+      this.buttonTween.isEnabled = false;
       this.renderable = this.inactiveImage;
     }
     super.render(context, camera, deltaTime, mouse);

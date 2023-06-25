@@ -1,3 +1,4 @@
+import { FinalMutation } from "../final_mutation";
 import { Mutation } from "../mutation";
 
 export class MetabolicTransformation implements Mutation {
@@ -6,7 +7,12 @@ export class MetabolicTransformation implements Mutation {
   radiationPerClick: number = 20;
   cost: number = 1_000_000;
 
-  upgrades: Mutation[] = [];
+  upgrades: Mutation[] = [
+    new FinalMutation(
+      MetabolicTransformation.name,
+      "plant_3_metabolic_transformation.png"
+    ),
+  ];
   isPurchased: boolean = false;
   image = "plant_3_metabolic_transformation.png";
 }

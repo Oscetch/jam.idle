@@ -7,6 +7,8 @@ import { Scene } from "./scenes/scene";
 import { GameScene } from "./scenes/game_scene";
 import { StartScene } from "./scenes/start_scene";
 import { saveGameInformation } from "./storage_handler";
+import { MutationUnleashedScene } from "./scenes/mutation_unleashed_scene";
+import { FinalMutation } from "./upgrades/mutations/final_mutation";
 
 declare global {
   interface HTMLCanvasElement {
@@ -29,8 +31,14 @@ export namespace IdleGame {
       this.canvas = canvas;
       this.context = canvas.getContext("2d");
 
+      const currentMutation = gameInformation.getCurrentMutation();
       if (gameInformation.isNewGame) {
         this.scene = new StartScene();
+      } else if (
+        currentMutation &&
+        (gameInformation.getCurrentMutation() as FinalMutation).isFinal
+      ) {
+        this.scene = new MutationUnleashedScene();
       } else {
         this.scene = new GameScene();
       }

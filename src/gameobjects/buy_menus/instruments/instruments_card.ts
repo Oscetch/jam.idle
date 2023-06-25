@@ -15,6 +15,9 @@ export class InstrumentsCard extends TopLeftRelativeGameObject {
   costTextObject: TopRightRelativeGameObject;
   button: CardPurchaseButton;
   upgrade: Instrument;
+  descriptionText: TopLeftRelativeGameObject;
+  title: TopLeftRelativeGameObject;
+
   private displayedCostLevel: number;
 
   constructor(
@@ -22,9 +25,6 @@ export class InstrumentsCard extends TopLeftRelativeGameObject {
     size: Point,
     relativePosition: Point,
     icon: string,
-    titleText: string,
-    descriptionText: string,
-    cost: number,
     instrument: Instrument
   ) {
     super(
@@ -35,14 +35,34 @@ export class InstrumentsCard extends TopLeftRelativeGameObject {
     );
     this.upgrade = instrument;
 
-    const titleTextImage = new TextImage(titleText, 16);
+    const titleTextImage = new TextImage(
+      this.upgrade.level === 0
+        ? this.upgrade.name
+        : `${this.upgrade.name}(${this.upgrade.level})`,
+      16
+    );
+    this.title = new TopLeftRelativeGameObject(
+      this,
+      titleTextImage.size,
+      titleTextImage,
+      new Point(56, 24)
+    );
     const descriptionTextImage = new TextImage(
-      descriptionText,
+      instrument.getDescription(),
       14,
       "#00000099",
       400
     );
-    const costText = new TextImage(cost.toString(), 14);
+    this.descriptionText = new TopLeftRelativeGameObject(
+      this,
+      descriptionTextImage.size,
+      descriptionTextImage,
+      new Point(56, 47)
+    );
+    const costText = new TextImage(
+      Math.floor(gameInformation.calculateCost(this.upgrade)).toString(),
+      14
+    );
     this.costTextObject = new TopRightRelativeGameObject(
       this,
       costText.size,
@@ -67,18 +87,8 @@ export class InstrumentsCard extends TopLeftRelativeGameObject {
         new PngImage(icon),
         new Point(26.5, 34.97)
       ),
-      new TopLeftRelativeGameObject(
-        this,
-        titleTextImage.size,
-        titleTextImage,
-        new Point(56, 24)
-      ),
-      new TopLeftRelativeGameObject(
-        this,
-        descriptionTextImage.size,
-        descriptionTextImage,
-        new Point(56, 47)
-      ),
+      this.title,
+      this.descriptionText,
       this.button,
       this.costTextObject,
       costIcon
@@ -94,7 +104,7 @@ export class InstrumentsCard extends TopLeftRelativeGameObject {
     this.button.onPurchase = (): void => {
       gameInformation.spentRadiation +=
         gameInformation.calculateCost(instrument);
-      instrument.level += 1;
+      instrument.increaseLevel();
     };
   }
 
@@ -110,6 +120,23 @@ export class InstrumentsCard extends TopLeftRelativeGameObject {
         Math.floor(gameInformation.calculateCost(this.upgrade)).toString(),
         14
       );
+
+      const descriptionTextImage = new TextImage(
+        this.upgrade.getDescription(),
+        14,
+        "#00000099",
+        400
+      );
+      this.descriptionText.renderable = descriptionTextImage;
+      this.descriptionText.bounds.size = descriptionTextImage.size;
+
+      const titleText = new TextImage(
+        `${this.upgrade.name}(${this.upgrade.level})`,
+        16
+      );
+      this.title.renderable = titleText;
+      this.title.bounds.size = titleText.size;
+
       this.costTextObject.renderable = text;
       this.costTextObject.bounds.size = text.size;
     }

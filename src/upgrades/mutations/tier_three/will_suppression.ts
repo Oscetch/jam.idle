@@ -1,3 +1,4 @@
+import { FinalMutation } from "../final_mutation";
 import { Mutation } from "../mutation";
 
 export class WillSuppression implements Mutation {
@@ -6,7 +7,9 @@ export class WillSuppression implements Mutation {
   radiationPerClick: number = 120;
   cost: number = 1_000_000;
 
-  upgrades: Mutation[] = [];
+  upgrades: Mutation[] = [
+    new FinalMutation(WillSuppression.name, "plant_3_will_suppression.png"),
+  ];
   isPurchased: boolean = false;
   image = "plant_3_will_suppression.png";
 }

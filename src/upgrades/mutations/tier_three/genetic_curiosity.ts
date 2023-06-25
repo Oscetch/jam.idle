@@ -1,3 +1,4 @@
+import { FinalMutation } from "../final_mutation";
 import { Mutation } from "../mutation";
 
 export class GeneticCuriosity implements Mutation {
@@ -6,7 +7,9 @@ export class GeneticCuriosity implements Mutation {
   radiationPerClick: number = 0;
   cost: number = 1_000_000;
 
-  upgrades: Mutation[] = [];
+  upgrades: Mutation[] = [
+    new FinalMutation(GeneticCuriosity.name, "plant_3_genetic_curiosity.png"),
+  ];
   isPurchased: boolean = false;
   image = "plant_3_genetic_curiosity.png";
 }

@@ -4,11 +4,13 @@ import { RenderableImage } from "../images/renderable_image";
 import { Point } from "../math/point";
 import { Rectangle } from "../math/rectangle";
 import { Mouse } from "../mouse";
+import { Tween } from "./tweens/tween";
 
 export class GameObject {
   bounds: Rectangle;
   renderable: RenderableImage | IAnimator;
   children: GameObject[] = [];
+  tweens: Tween[] = [];
 
   constructor(bounds: Rectangle, image: RenderableImage | IAnimator) {
     this.bounds = bounds;
@@ -29,6 +31,10 @@ export class GameObject {
     deltaTime: number,
     mouse: Mouse
   ) {
+    this.tweens.forEach((tween) =>
+      tween.tween(this, context, camera, deltaTime, mouse)
+    );
+
     this.renderOnlyThis(context, camera, deltaTime);
 
     this.children.forEach((child) =>

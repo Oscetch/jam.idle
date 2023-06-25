@@ -1,3 +1,4 @@
+import { FinalMutation } from "../final_mutation";
 import { Mutation } from "../mutation";
 
 export class PhotosyntheticSkin implements Mutation {
@@ -6,7 +7,12 @@ export class PhotosyntheticSkin implements Mutation {
   radiationPerClick: number = 90;
   cost: number = 1_000_000;
 
-  upgrades: Mutation[] = [];
+  upgrades: Mutation[] = [
+    new FinalMutation(
+      PhotosyntheticSkin.name,
+      "plant_3_photosynthetic_skin.png"
+    ),
+  ];
   isPurchased: boolean = false;
   image = "plant_3_photosynthetic_skin.png";
 }

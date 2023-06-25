@@ -11,6 +11,7 @@ import { RoundedCornerRectangle } from "../../../images/rounded_corner_rectangle
 import { TextImage } from "../../../images/text_image";
 
 export class InstrumentsFrame extends GameObject {
+  private internClickTime = 0;
   currentScroll = 0;
 
   constructor() {
@@ -37,9 +38,6 @@ export class InstrumentsFrame extends GameObject {
         new Point(281, 88),
         relativePosition,
         "construction.png",
-        upgrade.name,
-        `${upgrade.radiationPerLevel} cps`,
-        Math.floor(gameInformation.calculateCost(upgrade)),
         upgrade
       );
 
@@ -70,6 +68,15 @@ export class InstrumentsFrame extends GameObject {
           12) *
           camera.scale
       );
+    }
+
+    if (gameInformation.intern.level > 0) {
+      this.internClickTime += deltaTime;
+      if (this.internClickTime >= gameInformation.intern.getClickSpeed()) {
+        this.internClickTime = 0;
+        gameInformation.totalRadiation +=
+          gameInformation.getRadiationPerClick();
+      }
     }
 
     context.save();

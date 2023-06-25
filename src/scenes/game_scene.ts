@@ -2,15 +2,18 @@ import { gameInformation, reset } from "../game_information";
 import { Background } from "../gameobjects/background";
 import { InstrumentsFrame } from "../gameobjects/buy_menus/instruments/instruments_frame";
 import { MutationFrame } from "../gameobjects/buy_menus/mutations/mutations_frame";
+import { FinishedMutationFrame } from "../gameobjects/finished_mutation_frame";
 import { GameObject } from "../gameobjects/game_object";
 import { Lab } from "../gameobjects/lab";
 import { PlantBox } from "../gameobjects/plant_box";
 import { RadiationIndicator } from "../gameobjects/radiation_indicator";
+import { Radium } from "../gameobjects/radium";
 import { RestartButton } from "../gameobjects/restart_button";
 import { RestartText } from "../gameobjects/restart_text";
 import { TextImage } from "../images/text_image";
 import { Settings } from "../settings";
 import { saveGameInformation } from "../storage_handler";
+import { MutationUnleashedScene } from "./mutation_unleashed_scene";
 import { Scene } from "./scene";
 import { StartScene } from "./start_scene";
 
@@ -23,7 +26,11 @@ export class GameScene implements Scene {
     const background = new Background();
     this.gameObjects.push(
       background,
-      new MutationFrame(),
+      new MutationFrame(() => {
+        clearInterval(this.intervalId);
+        saveGameInformation(gameInformation);
+        this.changeScene(new MutationUnleashedScene());
+      }),
       new InstrumentsFrame(),
       new RadiationIndicator(background),
       new RestartButton(() => {
@@ -35,7 +42,9 @@ export class GameScene implements Scene {
         new TextImage("Restart game", 24, "#2C2C2E", 700, Settings.FONT, 1.2)
       ),
       new PlantBox(),
-      new Lab()
+      new Radium(),
+      new Lab(),
+      new FinishedMutationFrame()
     );
 
     this.intervalId = setInterval(

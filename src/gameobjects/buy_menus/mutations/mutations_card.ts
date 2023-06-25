@@ -34,10 +34,12 @@ export class MutationsCard extends TopLeftRelativeGameObject {
     this.upgrade = upgrade;
 
     const titleTextImage = new TextImage(upgrade.name, 16);
+    var descriptionText = `${
+      upgrade.radiationPerClick ? upgrade.radiationPerClick + " rpc " : ""
+    }${upgrade.radiationPerLevel ? upgrade.radiationPerLevel + " cps" : ""}`;
+
     const descriptionTextImage = new TextImage(
-      `${upgrade.radiationPerClick ? upgrade.radiationPerClick + " rpc " : ""}${
-        upgrade.radiationPerLevel ? upgrade.radiationPerLevel + " cps" : ""
-      }`,
+      descriptionText,
       14,
       "#00000099",
       400
@@ -55,14 +57,19 @@ export class MutationsCard extends TopLeftRelativeGameObject {
         titleTextImage.size,
         titleTextImage,
         new Point(56, 24)
-      ),
-      new TopLeftRelativeGameObject(
-        this,
-        descriptionTextImage.size,
-        descriptionTextImage,
-        new Point(56, 47)
       )
     );
+
+    if (descriptionText.length !== 0) {
+      this.children.push(
+        new TopLeftRelativeGameObject(
+          this,
+          descriptionTextImage.size,
+          descriptionTextImage,
+          new Point(56, 47)
+        )
+      );
+    }
 
     if (!upgrade.isPurchased) {
       const costText = new TextImage(upgrade.cost.toString(), 14);

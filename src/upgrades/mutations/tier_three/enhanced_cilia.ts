@@ -1,3 +1,4 @@
+import { FinalMutation } from "../final_mutation";
 import { Mutation } from "../mutation";
 
 export class EnhancedCilia implements Mutation {
@@ -6,7 +7,9 @@ export class EnhancedCilia implements Mutation {
   radiationPerClick: number = 70;
   cost: number = 1_000_000;
 
-  upgrades: Mutation[] = [];
+  upgrades: Mutation[] = [
+    new FinalMutation(EnhancedCilia.name, "plant_3_enhanced_cilia.png"),
+  ];
   isPurchased: boolean = false;
   image = "plant_3_enhanced_cilia.png";
 }

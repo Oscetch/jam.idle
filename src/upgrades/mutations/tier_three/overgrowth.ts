@@ -1,3 +1,4 @@
+import { FinalMutation } from "../final_mutation";
 import { Mutation } from "../mutation";
 
 export class Overgrowth implements Mutation {
@@ -6,7 +7,9 @@ export class Overgrowth implements Mutation {
   radiationPerClick: number = 80;
   cost: number = 1_000_000;
 
-  upgrades: Mutation[] = [];
+  upgrades: Mutation[] = [
+    new FinalMutation(Overgrowth.name, "plant_3_overgrowth.png"),
+  ];
   isPurchased: boolean = false;
   image = "plant_3_overgrowth.png";
 }

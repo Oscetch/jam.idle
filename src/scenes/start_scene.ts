@@ -1,6 +1,7 @@
 import { gameInformation } from "../game_information";
 import { GameObject } from "../gameobjects/game_object";
 import { StartGameButton } from "../gameobjects/start_game_button";
+import { PngImage } from "../images/png_image";
 import { TextImage } from "../images/text_image";
 import { Point } from "../math/point";
 import { Rectangle } from "../math/rectangle";
@@ -19,7 +20,7 @@ export class StartScene implements Scene {
       98,
       "#000000",
       400,
-      "Holtwood One SC"
+      Settings.HOLTWOOD_FONT
     );
     const descriptionText = new TextImage(
       "The world is in dire need of some mutant plant \npower, and it's up to you to save the day.",
@@ -31,13 +32,20 @@ export class StartScene implements Scene {
     );
     this.gameObjects.push(
       new GameObject(
+        new Rectangle(
+          new Point(),
+          new Point(Settings.PREFERED_WIDTH, Settings.PREFERED_HEIGHT)
+        ),
+        new PngImage("splash_bg.png")
+      ),
+      new GameObject(
         new Rectangle(new Point(), titleText.size).centerOnPoint(
-          new Point(205 + 515, 598 + 147 / 2)
+          new Point(205 + 515, 48 + 147 / 2)
         ),
         titleText
       ),
       new GameObject(
-        new Rectangle(new Point(205, 765), descriptionText.size),
+        new Rectangle(new Point(205, 215), descriptionText.size),
         descriptionText
       ),
       new StartGameButton(() => {

@@ -7,6 +7,7 @@ import { Mutation } from "./upgrades/mutations/mutation";
 import { Instrument } from "./upgrades/instruments/instrument";
 import { RapidGrowth } from "./upgrades/mutations/tier_one/rapid_growth";
 import { getGameInformation } from "./storage_handler";
+import { FinalMutation } from "./upgrades/mutations/final_mutation";
 
 export class GameInformation {
   totalRadiation = 0;
@@ -16,18 +17,56 @@ export class GameInformation {
 
   purchasedMutations: Mutation[] = [];
 
+  finishedMutations: FinalMutation[] = [];
+
   intern = new Intern();
   instruments = new NewInstruments();
   radium = new Radium();
 
   isNewGame = true;
 
-  getPlantImage(): string {
-    if (this.purchasedMutations.length > 0) {
-      return this.purchasedMutations[this.purchasedMutations.length - 1].image;
-    } else {
-      return "plant.png";
+  addFinal() {
+    const currentMutation = this.getCurrentMutation() as FinalMutation;
+    if (!this.hasFinalMutation()) {
+      this.finishedMutations.push(currentMutation);
     }
+    this.purchasedMutations = [];
+    this.intern = new Intern();
+    this.instruments = new NewInstruments();
+    this.radium = new Radium();
+    this.totalRadiation = 0;
+    this.spentRadiation = 0;
+    this.radiationPerClick = 1;
+  }
+
+  hasFinalMutation(): boolean {
+    const currentMutation = this.getCurrentMutation() as FinalMutation;
+    var hasMutationAlready = false;
+    for (let i = 0; i < this.finishedMutations.length; i++) {
+      const final = this.finishedMutations[i];
+      if (final.mutation === currentMutation.mutation) {
+        hasMutationAlready = true;
+        break;
+      }
+    }
+    return hasMutationAlready;
+  }
+
+  isFinalFinalMutation(): boolean {
+    return this.finishedMutations.length >= 11 && !this.hasFinalMutation();
+  }
+
+  getCurrentMutation(): Mutation {
+    if (this.purchasedMutations.length > 0) {
+      return this.purchasedMutations[this.purchasedMutations.length - 1];
+    } else {
+      return undefined;
+    }
+  }
+
+  getPlantImage(): string {
+    const mutation = this.getCurrentMutation();
+    return mutation ? mutation.image : "plant.png";
   }
 
   getAvailableRadiation(): number {
@@ -42,10 +81,13 @@ export class GameInformation {
   }
 
   getRadiationPerClick(): number {
-    return this.getMutations()
-      .filter((mutation) => mutation.isPurchased)
-      .map((mutation) => mutation.radiationPerClick)
-      .reduce((sum, radiation) => sum + radiation, this.radiationPerClick);
+    return (
+      this.getMutations()
+        .filter((mutation) => mutation.isPurchased)
+        .map((mutation) => mutation.radiationPerClick)
+        .reduce((sum, radiation) => sum + radiation, this.radiationPerClick) +
+      this.instruments.radiationPerClick * this.instruments.level
+    );
   }
 
   getRadiationPerSecond(): number {

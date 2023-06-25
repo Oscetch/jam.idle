@@ -7,23 +7,20 @@ import { Mouse } from "../mouse";
 import { Settings } from "../settings";
 import { CenterRelativeGameObject } from "./center_relative_game_object";
 import { GameObject } from "./game_object";
+import { ButtonTween } from "./tweens/button_tween";
 
 export class StartGameButton extends GameObject {
-  private idleSize: Point;
-  private hoverSize: Point;
-
   private text: CenterRelativeGameObject;
 
   onClick: () => void;
 
   constructor(onClick: () => void) {
     super(
-      new Rectangle(new Point(955, 776), new Point(280, 61)),
+      new Rectangle(new Point(955, 226), new Point(280, 61)),
       new RoundedCornerRectangle(new Point(280, 61), 32, "#32D74B")
     );
     this.onClick = onClick;
-    this.idleSize = this.bounds.size;
-    this.hoverSize = this.bounds.size.multiplyBy(1.2);
+    this.tweens.push(new ButtonTween(this));
 
     const textPng = new TextImage(
       "Let's Go Mutate",
@@ -53,9 +50,6 @@ export class StartGameButton extends GameObject {
         mouse.isClick = false;
         this.onClick();
       }
-      this.bounds = this.bounds.growByStep(this.hoverSize);
-    } else {
-      this.bounds = this.bounds.shrinkByStep(this.idleSize);
     }
     this.text.relativePosition = this.getSize().divideBy(2);
     super.render(context, camera, deltaTime, mouse);
