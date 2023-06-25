@@ -2,6 +2,7 @@ import { gameInformation, reset } from "../game_information";
 import { Background } from "../gameobjects/background";
 import { InstrumentsFrame } from "../gameobjects/buy_menus/instruments/instruments_frame";
 import { MutationFrame } from "../gameobjects/buy_menus/mutations/mutations_frame";
+import { CpsIndicator } from "../gameobjects/cps_indicator";
 import { FinishedMutationFrame } from "../gameobjects/finished_mutation_frame";
 import { GameObject } from "../gameobjects/game_object";
 import { Lab } from "../gameobjects/lab";
@@ -10,6 +11,7 @@ import { RadiationIndicator } from "../gameobjects/radiation_indicator";
 import { Radium } from "../gameobjects/radium";
 import { RestartButton } from "../gameobjects/restart_button";
 import { RestartText } from "../gameobjects/restart_text";
+import { RpcIndicator } from "../gameobjects/rpc_indicator";
 import { TextImage } from "../images/text_image";
 import { Settings } from "../settings";
 import { saveGameInformation } from "../storage_handler";
@@ -33,6 +35,8 @@ export class GameScene implements Scene {
       }),
       new InstrumentsFrame(),
       new RadiationIndicator(background),
+      new CpsIndicator(background),
+      new RpcIndicator(background),
       new RestartButton(() => {
         clearInterval(this.intervalId);
         reset();
