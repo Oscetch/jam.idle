@@ -3,7 +3,7 @@ import { Mutation } from "../mutation";
 
 export class BiomassConversion implements Mutation {
   name: string = "Biomass Conversion";
-  radiationPerLevel: number = 180;
+  radiationPerLevel: number = 540;
   radiationPerClick: number = 0;
   cost: number = 1_000_000;
 

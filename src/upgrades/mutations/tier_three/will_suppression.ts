@@ -3,7 +3,7 @@ import { Mutation } from "../mutation";
 
 export class WillSuppression implements Mutation {
   name: string = "Will Suppression";
-  radiationPerLevel: number = 80;
+  radiationPerLevel: number = 240;
   radiationPerClick: number = 240;
   cost: number = 1_000_000;
 

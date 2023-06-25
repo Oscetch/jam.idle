@@ -3,7 +3,7 @@ import { Instrument } from "./instrument";
 export class Radium implements Instrument {
   name: string = "Radium";
   level: number = 0;
-  radiationPerLevel: number = 32;
+  radiationPerLevel: number = 48;
   radiationPerClick: number = 0;
   multiplier: number = 64;
 

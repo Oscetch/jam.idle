@@ -4,7 +4,7 @@ import { WaterRetention } from "../tier_two/water_retention";
 
 export class Bioluminescence implements Mutation {
   name: string = "Bioluminescence";
-  radiationPerLevel: number = 2;
+  radiationPerLevel: number = 6;
   radiationPerClick: number = 0;
   cost: number = 100;
 

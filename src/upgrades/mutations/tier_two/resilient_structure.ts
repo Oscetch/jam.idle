@@ -5,7 +5,7 @@ import { DefensiveMechanism } from "../tier_three/defensive_mechanism";
 export class ResilientStructure implements Mutation {
   name: string = "Resilient Structure";
   cost: number = 10_000;
-  radiationPerLevel: number = 16;
+  radiationPerLevel: number = 48;
   radiationPerClick: number = 44;
 
   upgrades: Mutation[] = [new BiomassConversion(), new DefensiveMechanism()];

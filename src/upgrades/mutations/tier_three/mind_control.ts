@@ -3,7 +3,7 @@ import { Mutation } from "../mutation";
 
 export class MindControl implements Mutation {
   name: string = "Mind Control";
-  radiationPerLevel: number = 100;
+  radiationPerLevel: number = 300;
   radiationPerClick: number = 160;
   cost: number = 1_000_000;
 

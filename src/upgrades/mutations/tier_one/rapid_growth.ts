@@ -4,7 +4,7 @@ import { EnergyStorage } from "../tier_two/energy_storage";
 
 export class RapidGrowth implements Mutation {
   name = "Rapid Growth";
-  radiationPerLevel: number = 1;
+  radiationPerLevel: number = 3;
   cost: number = 100;
   radiationPerClick: number = 2;
   upgrades: Mutation[] = [new EnergyStorage(), new EmissionScrubber()];

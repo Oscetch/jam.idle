@@ -3,7 +3,7 @@ import { Mutation } from "../mutation";
 
 export class OrganicSynthesis implements Mutation {
   name: string = "Organic Synthesis";
-  radiationPerLevel: number = 130;
+  radiationPerLevel: number = 195 * 2;
   radiationPerClick: number = 200;
   cost: number = 1_000_000;
 
