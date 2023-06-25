@@ -16,7 +16,6 @@ export class TextImage implements RenderableImage {
   ) {
     const canvas = document.createElement("canvas");
     const context = canvas.getContext("2d");
-
     this.setContext(context, color, fontSize, fontWeight, font);
 
     var height = 0;
@@ -56,7 +55,7 @@ export class TextImage implements RenderableImage {
     font: string
   ) {
     context.fillStyle = color;
-    context.font = `${fontWeight} ${fontSize}px ${font}`;
+    context.font = `${fontWeight} ${fontSize}px '${font}'`;
     context.textAlign = "left";
     context.textBaseline = "top";
   }

@@ -6,7 +6,6 @@ import { Settings } from "./settings";
 import { Scene } from "./scenes/scene";
 import { GameScene } from "./scenes/game_scene";
 import { StartScene } from "./scenes/start_scene";
-import { saveGameInformation } from "./storage_handler";
 import { MutationUnleashedScene } from "./scenes/mutation_unleashed_scene";
 import { FinalMutation } from "./upgrades/mutations/final_mutation";
 

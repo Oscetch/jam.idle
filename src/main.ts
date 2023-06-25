@@ -2,7 +2,7 @@ import { IdleGame } from "./engine";
 import { Settings } from "./settings";
 
 const fontObserver = new (window as any).FontFaceObserver(Settings.FONT);
-const bigFont = new (window as any).FontFaceObserver("Holtwood One SC");
+const bigFont = new (window as any).FontFaceObserver(Settings.HOLTWOOD_FONT);
 
 var hasLoadedOther = false;
 
